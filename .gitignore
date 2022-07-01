@@ -21,6 +21,7 @@ public_html/storage
 public_html/hot
 
 storage/*.key
+storage/app/livewire-tmp
 .env
 Homestead.yaml
 Homestead.json
