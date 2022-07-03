@@ -14,17 +14,20 @@ Cloudinary is a Software-as-a-Service (SaaS) solution for managing all your web 
 the cloud. Cloudinary offers an end-to-end solution for all your image and video needs, including the upload, storage,
 administration, transformation and optimized delivery.
 
-Laravel is a PHP framework developed with developer productivity in mind. The framework also aims to evolve with the web and has already incorporated several new features and ideas in the web development world—such as job queues, **API authentication** out of the box, real-time communication, and much more.
+Laravel is a PHP framework developed with developer productivity in mind. The framework also aims to evolve with the web
+and has already incorporated several new features and ideas in the web development world—such as job queues, **API
+authentication** out of the box, real-time communication, and much more.
 
 ## Introduction
 
-One of the ways to present your work is to create a portfolio. In this article, we will create a PDF portfolio with your branding from photos you upload to Cloudinary with a specific tag for instance "Wedding".
+One of the ways to present your work is to create a portfolio. In this article, we will create a PDF portfolio with your
+branding from photos you upload to Cloudinary with a specific tag for instance "Wedding".
 
 Let's get started.
 
 ## PHPSandbox and Github
 
-The final project can be viewed on [PHPSandbox](https://phpsandbox.io/e/x/itirk?layout=EditorPreview&defaultPath=%2F&theme=dark&showExplorer=no&openedFiles=/app/Http/Livewire/MultipleFileUpload.php) and the entire source code is available on my [Github](https://github.com/victorokech/cloudinary-branded-pdf) repository.
+The final project can be viewed on [PHPSandbox](https://phpsandbox.io/e/x/itirk?layout=EditorPreview&defaultPath=%2F&theme=dark&showExplorer=no&openedFiles=/app/Http/Livewire/MultipleFileUpload.php) and the entire source code is available on my [Github](https://github.com/victorokech/cloudinary-branded-pdf)repository.
 
 ## Prerequisites
 
@@ -34,39 +37,46 @@ framework.
 
 ## Getting Started
 
-Being that Laravel is a PHP Framework, we will need Composer. Like any modern PHP framework, Laravel uses Composer to manage its dependencies. Before, we can
-start ensure you have Composer installed on your machine. Follow step 1 below to install Composer and PHP.
+Being that Laravel is a PHP Framework, we will need Composer. Like any modern PHP framework, Laravel uses Composer to
+manage its dependencies. Before, we can start ensure you have Composer installed on your machine. Follow step 1 below to
+install Composer and PHP.
 
 1. Install [Composer](https://getcomposer.org/) and [PHP](https://www.php.net/manual/en/install.windows.tools.php) on
    your development or production machine.
 2. Install Laravel
 
-	1. Via Composer:
+   1. Via Composer:
 
-	   `composer create-project --prefer-dist laravel/laravel cloudinary-branded-pdf`
-	2. Via Laravel Installer
+      `composer create-project --prefer-dist laravel/laravel cloudinary-branded-pdf`
+   2. Via Laravel Installer
 
-	   `composer global require laravel/installer`
+      `composer global require laravel/installer`
 
-	   `laravel new cloudinary-branded-pdf`
-3. In step 2 above we have installed the Laravel Installer and used it to scaffold a new application in the folder `cloudinary-branded-pdf`. With Laravel installed, we should be able to start and test the server ensuring everything is okay. Change the directory to the project folder and run the local development server by typing the following commands:
+      `laravel new cloudinary-branded-pdf`
+3. In step 2 above we have installed the Laravel Installer and used it to scaffold a new application in the
+   folder `cloudinary-branded-pdf`. With Laravel installed, we should be able to start and test the server ensuring
+   everything is okay. Change the directory to the project folder and run the local development server by typing the
+   following commands:
 
    `cd cloudinary-branded-pdf`
 
    `php artisan serve`
 
-The Laravel project is now up and running. When you open `http://localhost:8000` on your computer, you should see the image below:
+The Laravel project is now up and running. When you open `http://localhost:8000` on your computer, you should see the
+image below:
 
-![Laravel Server Running](https://res.cloudinary.com/dgrpkngjn/image/upload/v1655887283/watermark-api/assets/laravel-running_zqk8ol.png)
+![Laravel Server Running](https://res.cloudinary.com/dgrpkngjn/image/upload/c_scale,w_940/v1655976836/assets/laravel-running.png)
 
 ## Setting up Cloudinary’s Laravel SDK
 
-We will be using Cloudinary to generate multi-paged PDFs from images we will tag and upload. We will also perform the overlay transformation to add a watermark to each of the pages. Sounds fun, we will start by creating a free [Cloudinary](https://cloudinary.com/) account.
+We will be using Cloudinary to generate multi-paged PDFs from images we will tag and upload. We will also perform the
+overlay transformation to add a watermark to each of the pages. Sounds fun, we will start by creating a
+free [Cloudinary](https://cloudinary.com/) account.
 
 1. Sign up for a free Cloudinary account then navigate to the Console page and take note of your Cloud name, API Key and
    API Secret.
 
-   ![Cloudinary Dashboard](https://res.cloudinary.com/dgrpkngjn/image/upload/v1655976836/assets/cloudinary_dashboard.png)
+   ![Cloudinary Dashboard](https://res.cloudinary.com/dgrpkngjn/image/upload/c_scale,w_940/v1655976836/assets/cloudinary_dashboard.png)
 2. Install [Cloudinary’s Laravel SDK](https://github.com/cloudinary-labs/cloudinary-laravel#installation):
 
    `composer require cloudinary-labs/cloudinary-laravel`
@@ -80,17 +90,14 @@ CLOUDINARY_API_SECRET=YOUR_CLOUDINARY_API_SECRET
 CLOUDINARY_CLOUD_NAME=YOUR_CLOUDINARY_CLOUD_NAME
 ```
 
-## Generating a Slideshow
+## Generating a Watermarked Multi-paged PDF
 
-There are two ways you can generate a slide show depending on your use case:
-
-1. Using a delivery URL - here you can use a template downloaded from Cloudinary to combine the relevant components in a delivery URL that looks as follows:
-   `https://res.cloudinary.com/<cloudname>/video/upload/fn_render:<global-settings>;vars_(<slide-settings>(<individual-slide>))/<global-transformations>/<template>.<ext>`
-2. Using the Upload API - this is the technique we will use in this article. We will use the `create_slideshow` method of the Upload API. This will create a new video in your Cloudinary account based on the parameters provided.
+We will use Cloudinary's Upload API with the `multi` method which will take the images we upload, apply transformations
+and convert them to a PDF document.
 
 ## Multiple File Upload with Livewire
 
-To generate a video slideshow we will need a UI (User Interface), we will use the Laravel package Livewire to build this.
+To generate a PDF document we will need a user interface, we will use the Laravel package Livewire to build this.
 
 1. Install Livewire Package by running the following command in your Laravel project:
 
@@ -99,12 +106,12 @@ To generate a video slideshow we will need a UI (User Interface), we will use th
 
 ```html
 ...
-    @livewireStyles
+@livewireStyles
 </head>
 <body>
-    ...
-  
-    @livewireScripts
+...
+
+@livewireScripts
 </body>
 </html>
 ```
@@ -127,47 +134,83 @@ or
 3. Open `resources/views/welcome.blade.php` and add the following code within the `<body></body>` tags as shown below:
 
 ```html
+
 <body class="antialiased">
-  <div>
-    @livewire('multiple-file-upload')
-  </div>
+<div>
+	@livewire('multiple-file-upload')
+</div>
 </body>
 ```
 
 This includes the Livewire component we created earlier in our `welcome.blade.php`.
 
-**Note:** Please ensure you go through the [Livewire documentation](https://laravel-livewire.com/docs/2.x/quickstart), to learn how to install and set it up.
+**Note:** Please ensure you go through the [Livewire documentation](https://laravel-livewire.com/docs/2.x/quickstart),
+to learn how to install and set it up.
 
 3. Open the file `resources/views/livewire/multiple-file-upload.blade.php` and populate it with the following code:
 
 ```html
-<form class="mb-5" wire:submit.prevent="uploadFiles">
-  <div class="form-group row mt-5 mb-3">
-    <div class="input-group">
-      <input type="file" class="form-control @error('files'|'files.*') is-invalid @enderror" placeholder="Choose files..." wire:model="files" multiple>
-	@error('files'|'files.*')
-	  <div class="invalid-feedback">{{ $message }}</div>
-	@enderror
-    </div>
-    <small class="text-muted text-center mt-2" wire:loading wire:target="files">
-      {{ __('Uploading') }}…
-    </small>
-  </div>
-  <div class="text-center">
-     <button type="submit" class="btn btn-sm btn-primary w-25">
-       {{ __('Generate Slideshow') }}
-     </button>
-   </div>
+
+<form class="mb-5" wire:submit.prevent="uploadImages">
+	<div class="form-group row mt-5 mb-3">
+		<div class="input-group mb-5">
+			<input id="watermark" type="file" class="form-control @error('watermark') is-invalid @enderror"
+			       placeholder="Choose files..." wire:model="watermark">
+			<label class="input-group-text" for="media">
+				Choose watermark...
+			</label>
+			@error('watermark')
+			<div class="invalid-feedback">{{ $message }}</div>
+			@enderror
+		</div>
+		<div class="input-group mb-3">
+			<span class="input-group-text" id="basic-addon1">#</span>
+			<input class="form-control @error('tag') is-invalid @enderror" placeholder="Portfolio Tag"
+			       aria-label="Portfolio Tag"
+			       aria-describedby="basic-addon1" wire:model="tag">
+			@error('tag')
+			<div class="invalid-feedback">{{ $message }}</div>
+			@enderror
+		</div>
+		<div class="input-group">
+			<input id="files" type="file" class="form-control @error('files'|'files.*') is-invalid @enderror"
+			       placeholder="Choose files..." wire:model="files" multiple>
+			<label class="input-group-text" for="files">
+				Choose images for portfolio...
+			</label>
+		
+			@error('files'|'files.*')
+			<div class="invalid-feedback">{{ $message }}</div>
+			@enderror
+		</div>
+		<small class="text-muted text-center mt-2" wire:loading wire:target="files">
+			{{ __('Uploading') }}…
+		</small>
+		<small class="text-muted text-center mt-2" wire:loading wire:target="watermark">
+			{{ __('Uploading') }}…
+		</small>
+	</div>
+	<div class="text-center">
+		<button type="submit" class="btn btn-sm btn-primary w-25">
+			<i class="fas fa-check mr-1"></i> {{ __('Generate PDF') }}
+			<i class="spinner-border spinner-border-sm ml-1 mt-1" wire:loading wire:target="uploadImages"></i>
+		</button>
+	</div>
 </form>
 ```
 
-This is our Livewire Component view, this basically will display a form with a multiple-file input and a button.
+This is our Livewire Component view, this basically will display a form with inputs for our watermark, tag, images
+files and a button.
+
+![Cloudinary PDF UI](https://res.cloudinary.com/dgrpkngjn/image/upload/c_scale,w_940/v1656858250/branded-pdf/assets/cloudinary_branded_pdf_action_fodyw0.png)
 
 You will see the implementation in code shortly.
 
 ## Implementation in Code
 
-Open the file `app/Http/Livewire/MultipleFileUpload.php`. Here, we are going to add a method that will handle the multiple files selected by the user, upload them to Cloudinary and save their `public_id`'s in an array that we will use later on.
+Open the file `app/Http/Livewire/MultipleFileUpload.php`. Here, we are going to add a method that will handle the
+multiple files selected by the user, upload them to Cloudinary and save their `public_id`'s in an array that we will use
+later on.
 
 Add the following code to this file.
 
@@ -175,256 +218,157 @@ Add the following code to this file.
    and `$optimizedImage` which is an array that will contain the image URLs we get back from Cloudinary.
 
    ```php
-   use Livewire\WithFileUploads;
-   
-   public $files = [];
-   public $slides = [];
-   
-   // Needed to specify the type of media file for our slideshow
-   public $imageExt = ['jpeg', 'jpg', 'png', 'gif',];
+    		use WithFileUploads;
+
+    		public $files = [];
+    		public $watermark;
+    		public $tag;
    ```
-2. Secondly, we will create the `uploadFiles` function which will upload the media files to [Cloudinary](https://cloudinary.com). We will apply specific transformations that will optimize our images for our slideshow with an aspect ratio of `9:16` which works great for most social media platforms.
+2. Secondly, we will create the `uploadImages` function which will upload the watermark and image files
+   to [Cloudinary](https://cloudinary.com). Cloudinary will apply specific transformations to each one of the images
+   that will make the pages before generating the PDF document.
 
    ```php
-   public function uploadFiles() {
+   public function uploadImages() {
     ...
    }
    ```
 3. Let's populate our method in step 2 above:
 
    ```php
-   public function uploadFiles() {
-     /* First we validate the input from the user. We will take multiple image and or video files less than 10MB in size */
-     $this->validate([
-       'files'   => [
-         'required',
-         'max:102400'
-        ],
-       'files.*' => 'mimes:jpeg,jpg,png,gif,avi,mp4,webm,mov,ogg,mkv,flv,m3u8,ts,3gp,wmv,3g2,m4v'
-     ]);
-   
-     /* We will now upload the media files to Cloudinary with specified transformations and get back the public_id */
-     foreach ($this->files as $file) {
-       $media = cloudinary()->upload($file->getRealPath(), [
-         'folder'         => 'video-slideshow',
-         'public_id'      => $file->getClientOriginalName(),
-         'transformation' => [
-           'aspect_ratio' => '9:16',
-   	'gravity'      => 'auto', //can be face, face etc
-   	'crop'         => 'fill'
-         ]
-       ])->getPublicId();
-   
-       /* Here we will check whether the file is an image or video from its extension and generate the appropriate media type parameter for the manifest_json */
-       if (in_array($file->getClientOriginalExtension(), $this->imageExt)) {
-         $this->slides[] = ['media' => 'i:'.$media];
-       } else {
-         $this->slides[] = ['media' => 'v:'.$media];
-       }
-     }
-   
-     /* Creating the manifest_json parameter */
-     $manifestJson = json_encode([
-       "w"    => 540,
-       "h"    => 960,
-       "du"   => 60,
-       "vars" => [
-         "sdur"   => 3000,
-         "tdur"   => 1500,
-         "slides" => $this->slides,
-        ],
-     ]);
-   
-     /* signingData for generating the signature  */
-     $cloudName = env('CLOUDINARY_CLOUD_NAME');
-     $timestamp = (string) Carbon::now()->unix();
-     $signingData = [
-       'timestamp'     => $timestamp,
-       'manifest_json' => $manifestJson,
-       'public_id'     => 'test_slideshow',
-       'folder'        => 'video-slideshow',
-       'notification_url' => env('CLOUDINARY_NOTIFICATION_URL')
-     ];
-     $signature = ApiUtils::signParameters($signingData, env('CLOUDINARY_API_SECRET'));
-   
-     /* Using Laravel Http Request to send a POST request to the create_slideshow end point */
-     $response = Http::post("https://api.cloudinary.com/v1_1/$cloudName/video/create_slideshow", [
-       'api_key'          => env('CLOUDINARY_API_KEY'),
-       'signature'        => $signature,
-       'timestamp'        => $timestamp,
-       'manifest_json'    => $manifestJson,
-       'resource_type'    => 'video',
-       'public_id'        => 'test_slideshow',
-       'folder'           => 'video-slideshow',
-       'notification_url' => env('CLOUDINARY_NOTIFICATION_URL')
-     ]);
-   
-     // Determine if the status code is >= 200 and < 300...
-     if ($response->successful()) {
-       session()->flash('message', 'Slideshow generated successfully!');
-     } else {
-       session()->flash('error', 'Slideshow generation failed! Try again later.');
-     }
+   public function uploadImages() {
+    		$this->validate([
+    			'files'     => [
+    				'required',
+    				'max:10240'
+    			],
+    			'files.*'   => 'mimes:jpeg,jpg,png',
+    			'watermark' => [
+    				'required',
+    				'image',
+    				'mimes:png',
+    				'max:100'
+    			],
+    			'tag'       => [
+    				'required',
+    				'string',
+    				'max:20'
+    			],
+    		]);
+
+     $watermarkPublicId = cloudinary()->upload($this->watermark->getRealPath(), [
+    			'folder'         => 'branded-pdf',
+    			'public_id'      => 'watermark',
+    		])->getPublicId();
+
+      foreach ($this->files as $file) {
+    			cloudinary()->upload($file->getRealPath(), [
+    				'folder'  => 'branded-pdf',
+    				'width'   => '794',
+    				'height'  => '1123',
+    				'gravity' => 'auto',
+    				'crop'    => 'fill',
+    				'tags'    => ["$this->tag"],
+    			]);
+    		}
+
+    cloudinary()->uploadApi()->multi($this->tag, [
+    			'transformation' => [
+    				'overlay' => $watermarkPublicId,
+    				'gravity' => 'north_east',
+    				'x'       => 0.02,
+    				'y'       => 0.02,
+    				'crop'    => 'scale',
+    				'flags'   => 'relative',
+    				'width'   => 0.15,
+    				'opacity' => 80
+    			],
+    			'format'           => 'pdf',
+    			'notification_url' => env('CLOUDINARY_NOTIFICATION_URL')
+    		]);
    }
    ```
 
-   The code above uploads the media files to Cloudinary returning their ` public_id`'s. Let's talk about the code.
+   Let's talk about the code.
 
-	- ### Uploading the media files
+   - ### Uploading the watermark
 
-	  We will get the files from user input and upload them to Cloudinary and use their `public_id`'s to create the media type parameter `media_` which will take the form `media_i:<public_id>` for images and `media_v:<public_id>` for videos.
+     We upload the watermark to Cloudinary and get the `public_id` which we will use later on.
 
-```
-foreach ($this->files as $file) {
-  $media = cloudinary()->upload($file->getRealPath(), [
-  'folder'         => 'video-slideshow',
-  'public_id'      => $file->getClientOriginalName(),
-  'transformation' => [
-    'aspect_ratio' => '9:16',
-    'gravity'      => 'auto', //can be face, face etc
-    'crop'         => 'fill'
-  ]])->getPublicId();
 
-  if (in_array($file->getClientOriginalExtension(), $this->imageExt)) {
-    $this->slides[] = ['media' => 'i:'.$media];
-  } else {
-    $this->slides[] = ['media' => 'v:'.$media];
-  }
-}
-```
+     ```php
+     $watermarkPublicId = cloudinary()->upload($this->watermark->getRealPath(), [
+     		'folder'         => 'branded-pdf',
+     		'public_id'      => 'watermark',
+     	])->getPublicId();
+     ```
+   - ### Uploading the images
 
-- ### The `manifest_json` parameter
+     We upload the images selected by the user and apply the tag that they specified and some transformations to each one
+     of them using a `for loop`.
 
-The create a slideshow endpoint requires either a `manifest_transformation` or a `manifest_json`. The `manifest_json` parameter is a stringified json parameter, allowing you to define your slideshow settings in a structured data format, which then needs to be converted to a string.
 
-```
-$manifestJson = json_encode([
-  "w"    => 540, 
-  "h"    => 960,
-  "du"   => 60,
-  "vars" => [
-    "sdur"   => 3000,
-    "tdur"   => 1500,
-    "slides" => $this->slides,
-  ],
-]);
-```
+     ```php
+       foreach ($this->files as $file) {
+       	cloudinary()->upload($file->getRealPath(), [
+       		'folder'  => 'branded-pdf',
+       		'width'   => '794',
+       		'height'  => '1123',
+       		'gravity' => 'auto',
+       		'crop'    => 'fill',
+       		'tags'    => ["$this->tag"],
+       	]);
+       }
+     ```
+   - ### The `multi` method
 
-You can checkout the [reference](https://cloudinary.com/documentation/video_slideshow_generation#reference) for full details on the relevant options.
+   Through the `Upload API`, the `multi` method allows us to apply transformations and generate the PDF from all the
+   images with the `tag` that we pass to Cloudinary. We do this by specifying the `format` as `pdf` and applying the
+   transformations which overlay our watermark on the images with this tag.
 
-- ### Generating a signature
+   ```php
+     cloudinary()->uploadApi()->multi($this->tag, [
+    	 'transformation' => [
+    		 'overlay' => $watermarkPublicId,
+    		 'gravity' => 'north_east',
+    		 'x'       => 0.02,
+    		 'y'       => 0.02,
+    		 'crop'    => 'scale',
+    		 'flags'   => 'relative',
+    		 'width'   => 0.15,
+    		 'opacity' => 80
+    	 ],
+    	 'format'           => 'pdf',
+    	 'notification_url' => env('CLOUDINARY_NOTIFICATION_URL')
+     ]);
+   ```
 
-Since we are sending a request to the Cloudinary API, we need to create a signature to authenticate our request. Cloudinary SDKs automatically generates this signature for any upload or admin method that requires it. However, in this case we are making a direct call to the REST API and we need to generate the signature.
+You can check out the [reference](https://cloudinary.com/documentation/image_upload_api_reference#multi) for full
+details on the relevant options.
 
-```
-$cloudName = env('CLOUDINARY_CLOUD_NAME');
-  $timestamp = (string) Carbon::now()->unix();
-  $signingData = [
-    'timestamp'     => $timestamp,
-    'manifest_json' => $manifestJson,
-    'public_id'     => 'test_slideshow',
-    'folder'        => 'video-slideshow',
-    'notification_url' => env('CLOUDINARY_NOTIFICATION_URL')
-  ];
+On the `notification_url` we have specified we will receive a response from Cloudinary once our PDF has been
+successfully created. The response will be as follows:
 
-$signature = ApiUtils::signParameters($signingData, env('CLOUDINARY_API_SECRET'));
-```
-
-The signature is a SHA-1 or SHA-256 hexadecimal message digest created based on the following parameters:
-
-* All parameters added to the method call should be included  **except** : `file`, `cloud_name`, `resource_type` and your `api_key`.
-* Add the `timestamp` parameter.
-* Sort all the parameters in alphabetical order.
-* Separate the parameter names from their values with an `=` and join the parameter/value pairs together with an `&`.
-
-***Tip:*** We took a shortcut and used the Cloudinary SDK `ApiUtils` to create the signature:
-
-```
-$signature = ApiUtils::signParameters($signingData, env('CLOUDINARY_API_SECRET'));
-````
-
-- ### Sending the `POST` request to Cloudinary
-
-With everything ready we can send the request to Cloudinary and start the video slideshow generation. We will use Laravel's Http Request based on Guzzle.
-
-```
-$response = Http::post("https://api.cloudinary.com/v1_1/$cloudName/video/create_slideshow", [
-  'api_key'          => env('CLOUDINARY_API_KEY'),
-  'signature'        => $signature,
-  'timestamp'        => $timestamp,
-  'manifest_json'    => $manifestJson,
-  'resource_type'    => 'video',
-  'public_id'        => 'test_slideshow',
-  'folder'           => 'video-slideshow',
-  'notification_url' => env('CLOUDINARY_NOTIFICATION_URL')
-]);
-```
-
-**Note:** Once our slideshow is ready Cloudinary will send us a Webhook notification to the  `notification_url`.
-
-If you successfully implemented the code above, you should be able to see the following when you navigate to `http://localhost:8000`:
-
-![Cloudinary Video Slideshow](https://res.cloudinary.com/dgrpkngjn/image/upload/v1656670841/video-slideshow/assets/cloudinary-video-slideshow_ggzziv.png)
-
-## Handling the Webhook Notification
-
-Once we send the request successfully. Cloudinary will send us a `pending` response as it processes the generation of the video slideshow:
-
-![Cloudinary Video Slideshow Success](https://res.cloudinary.com/dgrpkngjn/image/upload/v1656673744/video-slideshow/assets/cloudinary-video-slideshow-successful-request_hiktz2.png)
-
-Cloudinary will send the following response:
-
-```
+```json
 {
-  "status": "processing",
-  "public_id": "test_slideshow",
-  "batch_id": "00b45635e533ab11e63585dd145ab7816ca19bff2bf3f298a0e66d87405ab7793"
+	"url": "http://res.cloudinary.com/dgrpkngjn/image/multi/c_scale,fl_relative,g_north_east,l_branded-pdf:watermark,o_80,w_0.15,x_0.02,y_0.02/f_pdf/v1656857502/Wedding%20Photos.pdf",
+	"secure_url": "https://res.cloudinary.com/dgrpkngjn/image/multi/c_scale,fl_relative,g_north_east,l_branded-pdf:watermark,o_80,w_0.15,x_0.02,y_0.02/f_pdf/v1656857502/Wedding%20Photos.pdf",
+	"asset_id": "770deef5d2f1285e39565a1a77ebbe3d",
+	"public_id": "Wedding Photos,pdf,c_scale,fl_relative,g_north_east,l_branded-pdf:watermark,o_80,w_0.15,x_0.02,y_0.02/f_pdf",
+	"version": 1656857502,
+	"notification_type": "multi"
 }
 ```
 
-When the Cloudinary is done generating the slideshow it will send us a Webhook notification to the notification URL we provided in the request.
+**Tip:** Please be sure to change your Cloudinary settings to allow delivery of PDFs and ZIP files, this is disabled by
+default to prevent dthe istribution of malware.
 
-```
-{
-  "notification_type": "upload",
-  "timestamp": "2021-08-11T07:44:41+00:00",
-  "request_id": "799b0f8305df4206b6d8f5dbdde0cdfc",
-  "asset_id": "640cb419bed70ef5b86e2bbe7cbb388a",
-  "public_id": "test_slideshow",
-  "version": 1628667799,
-  "version_id": "afcd9bdec6552adc43d7f316da077200",
-  "width": 500,
-  "height": 500,
-  "format": "mp4",
-  "resource_type": "video",
-  "created_at": "2021-08-11T07:43:19Z",
-  "tags": [],
-  "pages": 0,
-  "bytes": 521868,
-  "type": "upload",
-  "etag": "d7b3ecf1f5508af9fb8518158e78642f",
-  "placeholder": false,
-  "url": "http://res.cloudinary.com/demo/video/upload/v1628667799/test_slideshow.mp4",
-  "secure_url": "https://res.cloudinary.com/demo/video/upload/v1628667799/test_slideshow.mp4",
-  "access_mode": "public",
-  "audio": {},
-  "video": {
-    "pix_format": "yuv420p",
-    "codec": "h264",
-    "level": 30,
-    "profile": "High",
-    "bit_rate": "163900",
-    "time_base": "1/15360"
-  },
-  "frame_rate": 30,
-  "bit_rate": 166997,
-  "duration": 25,
-  "rotation": 0,
-  "nb_frames": 750
-}
-```
+## Handling Cloudinary Responses
 
-We will handle this notification by creating a `WebhookController.php` by typing the following command:
+Webhooks are one of a few ways web applications can communicate with each other. We can receive Cloudinary's responses
+through a webhook and run processes that will do something like notify the user or ban the video.
+
+Create a `WebhookController.php` by typing the following command:
 
 `php artisan make:controller WebhookController`
 
@@ -435,22 +379,22 @@ public function cloudinary(Request $request) {
   //Verification
   $verified = SignatureVerifier::verifyNotificationSignature(json_encode($request), $request->header('X-Cld-Timestamp'), $request->header('X-Cld-Signature'));
 
-  // If the signature is verified get the secure url to our slideshow
-  if ($verified) {
+  // If the signature is verified and moderation is rejected
+  if ($verified && $request->notification_type === 'multi') {
+    // Get Secure URL
     $secureUrl = $request->secure_url;
-
-    return view('livewire.view-slideshow', ['slideshow_url' => $secureUrl]);
+    // Notify user
+    ...
   }
 
   return response('Unverified', 401);
 }
 ```
 
-***Tip:*** A webhook is a mechanism where an application can notify an other application that something has happened.
+***Tip:*** A webhook is a mechanism where an application can notify another application that something has happened.
 
-When we receive the notification from Cloudinary we can notify the user by sending them an e-mail, sms or a push notification. It is really up to you but, in this case we are just returning a view and passing the slideshow URL to it.
-
-Since the notifcation from Cloudinary will be an external request we will need to allow it through the `VerifyCsrfToken.php` middleware to prevent CSRF errors.
+Since the notification from Cloudinary will be an external request we will need to allow it through
+the `VerifyCsrfToken.php` middleware to prevent CSRF errors.
 
 ```php
 ...
@@ -462,7 +406,7 @@ Since the notifcation from Cloudinary will be an external request we will need t
 
 Next, we will create the webhook route in `routes/api.php`.
 
-```
+```php
 ...
   //webhooks client
   Route::post('webhooks/cloudinary', [WebhookController::class, 'cloudinary']);
@@ -470,21 +414,19 @@ Next, we will create the webhook route in `routes/api.php`.
 
 And finally update our `CLOUDINARY_NOTIFICATION_URL` in the environment variables file `.env` as follows:
 
+```php
+CLOUDINARY_NOTIFICATION_URL=https://<app_url>/api/webhooks/cloudinary
 ```
-CLOUDINARY_NOTIFICATION_URL=https://<example.com>/api/webhooks/cloudinary
-```
 
-Finally, we can enjoy our slideshow:
+Finally, we can see our results:
 
-<video width="540" height="960" controls>
-  <source src="https://res.cloudinary.com/dgrpkngjn/video/upload/v1656676242/video-slideshow/test_slideshow.mp4" type="video/mp4">
-</video>
-
+![Cloudinary Watermarked PDF Created](https://res.cloudinary.com/dgrpkngjn/image/upload/c_scale,w_940/v1656857825/branded-pdf/assets/cloudinary_branded_pdf_success_foe1fn.png)
 
 ## Conclusion
 
-Yes, Cloudinary makes it easy to generate a slideshow and by automating and applying some transformations. This is beautiful since it allows you to focus on other things like promoting your business with the newly created slideshow.
+Cloudinary makes it easy to generate a PDF by automating and applying some transformations. We can use this to create portfolios which we can then present to our clients.
 
-The possibilities are endless, check out Cloudinary for your A to Z media management - upload, storage, administration, manipulation, optimization and delivery.
+The possibilities are endless, check out Cloudinary for your A to Z media management - upload, storage, administration,
+manipulation, optimization and delivery.
 
 [Get started](https://cloudinary.com/signup) with Cloudinary in your Laravel projects for FREE!

@@ -1,8 +1,5 @@
 <div>
 	{{-- Be like water. --}}
-	<div class="flex-row">
-		<div class="spinner-border spinner-border-sm m-3 end-0" role="status" wire:loading wire:target="uploadImages"></div>
-	</div>
 	@if (session()->has('message'))
 		<div class="alert alert-success alert-dismissible fade show m-3" role="alert">
 			<h4 class="alert-heading">Awesomeness!</h4>
@@ -70,6 +67,7 @@
 					<div class="text-center">
 						<button type="submit" class="btn btn-sm btn-primary w-25">
 							<i class="fas fa-check mr-1"></i> {{ __('Generate PDF') }}
+							<i class="spinner-border spinner-border-sm ml-1 mt-1" wire:loading wire:target="uploadImages"></i>
 						</button>
 					</div>
 				</form>
