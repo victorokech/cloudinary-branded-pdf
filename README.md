@@ -418,7 +418,7 @@ And finally update our `CLOUDINARY_NOTIFICATION_URL` in the environment variable
 CLOUDINARY_NOTIFICATION_URL=https://<app_url>/api/webhooks/cloudinary
 ```
 
-Finally, we can see our results:
+Finally, we can see the results:
 
 ![Cloudinary Watermarked PDF Created](https://res.cloudinary.com/dgrpkngjn/image/upload/c_scale,w_940/v1656857825/branded-pdf/assets/cloudinary_branded_pdf_success_foe1fn.png)
 
