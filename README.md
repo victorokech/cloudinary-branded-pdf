@@ -25,9 +25,9 @@ branding from photos you upload to Cloudinary with a specific tag for instance "
 
 Let's get started.
 
-## PHPSandbox and Github
+## Github
 
-The final project can be viewed on [PHPSandbox](https://phpsandbox.io/e/x/1uzuh?layout=EditorPreview&defaultPath=%2F&theme=dark&showExplorer=no&openedFiles=) and the entire source code is available on my [Github](https://github.com/victorokech/cloudinary-branded-pdf)repository.
+The entire source code is available on my [Github](https://github.com/victorokech/cloudinary-branded-pdf)repository.
 
 ## Prerequisites
 
@@ -44,16 +44,17 @@ install Composer and PHP.
 1. Install [Composer](https://getcomposer.org/) and [PHP](https://www.php.net/manual/en/install.windows.tools.php) on
    your development or production machine.
 2. Install Laravel
-
-   1. Via Composer:
-
-      `composer create-project --prefer-dist laravel/laravel cloudinary-branded-pdf`
-   2. Via Laravel Installer
+   
+   a) Via Composer:
+   
+	`composer create-project --prefer-dist laravel/laravel cloudinary-branded-pdf`
+   
+	 b) Via Laravel Installer
 
       `composer global require laravel/installer`
 
       `laravel new cloudinary-branded-pdf`
-3. In step 2 above we have installed the Laravel Installer and used it to scaffold a new application in the
+4. In step 2b above we have installed the Laravel Installer and used it to scaffold a new application in the
    folder `cloudinary-branded-pdf`. With Laravel installed, we should be able to start and test the server ensuring
    everything is okay. Change the directory to the project folder and run the local development server by typing the
    following commands:
@@ -421,6 +422,14 @@ CLOUDINARY_NOTIFICATION_URL=https://<app_url>/api/webhooks/cloudinary
 Finally, we can see the results:
 
 ![Cloudinary Watermarked PDF Created](https://res.cloudinary.com/dgrpkngjn/image/upload/c_scale,w_940/v1656857825/branded-pdf/assets/cloudinary_branded_pdf_success_foe1fn.png)
+
+## PHPSandbox
+
+The final project can be viewed in the embed below or directly through [PHPSandbox](https://phpsandbox.io/e/x/8rmwq?&layout=EditorPreview&iframeId=nu032meuc9&theme=dark&defaultPath=/&showExplorer=no).
+
+<figure style="height: 500px;">
+	<iframe src="https://phpsandbox.io/e/x/8rmwq?&layout=EditorPreview&iframeId=nu032meuc9&theme=dark&defaultPath=/&showExplorer=no" style="display: block" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" height="100%" width="100%"></iframe>
+</figure>
 
 ## Conclusion
 
