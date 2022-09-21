@@ -44,17 +44,17 @@ install Composer and PHP.
 1. Install [Composer](https://getcomposer.org/) and [PHP](https://www.php.net/manual/en/install.windows.tools.php) on
    your development or production machine.
 2. Install Laravel
-   
+
    a) Via Composer:
-   
-	`composer create-project --prefer-dist laravel/laravel cloudinary-branded-pdf`
-   
-	 b) Via Laravel Installer
 
-      `composer global require laravel/installer`
+   `composer create-project --prefer-dist laravel/laravel cloudinary-branded-pdf`
 
-      `laravel new cloudinary-branded-pdf`
-4. In step 2b above we have installed the Laravel Installer and used it to scaffold a new application in the
+   b) Via Laravel Installer
+
+   `composer global require laravel/installer`
+
+   `laravel new cloudinary-branded-pdf`
+3. In step 2b above we have installed the Laravel Installer and used it to scaffold a new application in the
    folder `cloudinary-branded-pdf`. With Laravel installed, we should be able to start and test the server ensuring
    everything is okay. Change the directory to the project folder and run the local development server by typing the
    following commands:
@@ -135,7 +135,6 @@ or
 3. Open `resources/views/welcome.blade.php` and add the following code within the `<body></body>` tags as shown below:
 
 ```html
-
 <body class="antialiased">
 <div>
 	@livewire('multiple-file-upload')
@@ -151,7 +150,6 @@ to learn how to install and set it up.
 3. Open the file `resources/views/livewire/multiple-file-upload.blade.php` and populate it with the following code:
 
 ```html
-
 <form class="mb-5" wire:submit.prevent="uploadImages">
 	<div class="form-group row mt-5 mb-3">
 		<div class="input-group mb-5">
@@ -179,7 +177,7 @@ to learn how to install and set it up.
 			<label class="input-group-text" for="files">
 				Choose images for portfolio...
 			</label>
-		
+	
 			@error('files'|'files.*')
 			<div class="invalid-feedback">{{ $message }}</div>
 			@enderror
@@ -219,7 +217,7 @@ Add the following code to this file.
    and `$optimizedImage` which is an array that will contain the image URLs we get back from Cloudinary.
 
    ```php
-    		use WithFileUploads;
+   use WithFileUploads;
 
     		public $files = [];
     		public $watermark;
@@ -310,7 +308,7 @@ Add the following code to this file.
 
 
      ```php
-       foreach ($this->files as $file) {
+     foreach ($this->files as $file) {
        	cloudinary()->upload($file->getRealPath(), [
        		'folder'  => 'branded-pdf',
        		'width'   => '794',
@@ -328,7 +326,7 @@ Add the following code to this file.
    transformations which overlay our watermark on the images with this tag.
 
    ```php
-     cloudinary()->uploadApi()->multi($this->tag, [
+   cloudinary()->uploadApi()->multi($this->tag, [
     	 'transformation' => [
     		 'overlay' => $watermarkPublicId,
     		 'gravity' => 'north_east',
@@ -425,10 +423,10 @@ Finally, we can see the results:
 
 ## PHPSandbox
 
-The final project can be viewed in the embed below or directly through [PHPSandbox](https://phpsandbox.io/e/x/8rmwq?&layout=EditorPreview&iframeId=nu032meuc9&theme=dark&defaultPath=/&showExplorer=no).
+The final project can be viewed in the embed below or directly through [PHPSandbox](https://phpsandbox.io/e/x/8rmwq?&layout=Preview&iframeId=nu032meuc9&theme=dark&defaultPath=/&showExplorer=no).
 
 <figure style="height: 500px;">
-	<iframe src="https://phpsandbox.io/e/x/8rmwq?&layout=EditorPreview&iframeId=nu032meuc9&theme=dark&defaultPath=/&showExplorer=no" style="display: block" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" height="100%" width="100%"></iframe>
+<iframe src="https://phpsandbox.io/e/x/8rmwq?&layout=Preview&iframeId=nu032meuc9&theme=dark&defaultPath=/&showExplorer=no" style="display: block" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" height="100%" width="100%"></iframe>
 </figure>
 
 ## Conclusion
